@@ -7,7 +7,7 @@ const jwtKey = process.env.JWT_SECRET_KEY;
 const getPosts = async (req, res) => {
     const query = req.query;
 
-    try {
+    // try {
 
         const posts = await prisma.post.findMany({
             where: {
@@ -28,11 +28,11 @@ const getPosts = async (req, res) => {
 
 
 
-    } catch (error) {
+    // } catch (error) {
         console.log();
         res.status(500).json({ message: "Failed to get posts" });
 
-    }
+    // }
 }
 const getPost = async (req, res) => {
     const id = req.params.id;
