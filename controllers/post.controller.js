@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 const jwtKey = process.env.JWT_SECRET_KEY;
 
 const getPosts = async (req, res) => {
-    res.send('this is working');
+    // res.send('this is working');
     const query = req.query;
     try {
         const posts = await prisma.post.findMany({
