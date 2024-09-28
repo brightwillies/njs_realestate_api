@@ -5,10 +5,9 @@ import jwt from 'jsonwebtoken';
 const jwtKey = process.env.JWT_SECRET_KEY;
 
 const getPosts = async (req, res) => {
+    res.send('this is working');
     const query = req.query;
-
-    // try {
-
+    try {
         const posts = await prisma.post.findMany({
             where: {
                 city: query.city || undefined,
@@ -21,61 +20,56 @@ const getPosts = async (req, res) => {
                 },
             },
         });
-
         //    setTimeout(() => {
         res.status(200).json(posts);
         //    }, 1500);
-
-
-
-    // } catch (error) {
+    } catch (error) {
         console.log();
         res.status(500).json({ message: "Failed to get posts" });
-
-    // }
+    }
 }
 const getPost = async (req, res) => {
     const id = req.params.id;
     console.log(id);
 
     // try {
-        const post = await prisma.post.findUnique({
-            where: { id },
-            include: {
-                postDetail: true,
-                user: {
-                    select: {
-                        username: true,
-                        avatar: true
-                    }
-
+    const post = await prisma.post.findUnique({
+        where: { id },
+        include: {
+            postDetail: true,
+            user: {
+                select: {
+                    username: true,
+                    avatar: true
                 }
+
+            }
+        }
+    });
+
+    let userId;
+    const token = req.cookies?.token;
+    if (!token) {
+        userId = null;
+    } else {
+        jwt.verify(token, jwtKey, async (err, payload) => {
+            if (err) {
+                userId = null;
+            } else {
+                userId = payload.id;
             }
         });
-
-        let userId;
-        const token = req.cookies?.token;
-        if (!token) {
-            userId = null;
-        } else {
-            jwt.verify(token, jwtKey, async (err, payload) => {
-                if (err) {
-                    userId = null;
-                } else {
-                    userId = payload.id;
-                }
-            });
-        }
-        const saved = await prisma.savedPost.findUnique({
-            where: {
-                userId_postId: {
-                    postId: id,
-                    userId
-                }
+    }
+    const saved = await prisma.savedPost.findUnique({
+        where: {
+            userId_postId: {
+                postId: id,
+                userId
             }
-        })
+        }
+    })
 
-        res.status(200).json({ ...post, isSaved:  saved ? true : false });
+    res.status(200).json({ ...post, isSaved: saved ? true : false });
 
 
     // } catch (error) {
