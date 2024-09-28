@@ -4,7 +4,11 @@ import  cors from "cors";
 import cookieParser  from  "cookie-parser";
 app.use(express.json());
 app.use(cookieParser()); 
- app.use(cors({origin : process.env.CLIENT_URL, credentials: true}))
+app.use(cors({
+    origin: '*', // Allows requests from any origin
+    credentials: true, // Allows sending cookies or credentials
+  }));
+//  app.use(cors({origin : process.env.CLIENT_URL, credentials: true}))
 //app.use(cors({origin : 'https://njs-realestate-swart.vercel.app', credentials: true}))
 // Authentication Route 
 
