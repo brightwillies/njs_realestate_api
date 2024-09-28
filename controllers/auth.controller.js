@@ -2,7 +2,8 @@ import bcrypt from 'bcrypt'
 import prisma from '../lib/prisma.js';
 import jwt from 'jsonwebtoken';
 
-const jwtKey = process.env.JWT_SECRET_KEY;
+const jwtKey = 'OCY6hVAHZxLSIVau5Zsxc3MVYtfi2kNyqZL2m5dXeiM=';
+// const jwtKey = process.env.JWT_SECRET_KEY;
 
 export const register = async (req, res) => {
     const { username, email, password } = req.body;
