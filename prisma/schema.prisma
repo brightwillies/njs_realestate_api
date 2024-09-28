@@ -10,7 +10,8 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = env("DATABASE_URL")
+  url      ="mongodb+srv://devbrightwillies:4B2tfve5ckAkASzf@chatappcluster.kpzof.mongodb.net/estate_app?retryWrites=true&w=majority&appName=ChatAppCluster"
+  // url      = env("DATABASE_URL")
 }
 
 model Post {
